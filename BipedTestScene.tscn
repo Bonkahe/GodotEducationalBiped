@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://b37oh55fe7ni"]
+
+[ext_resource type="PackedScene" uid="uid://ca84ra4cdtwre" path="res://Meshes/CharacterBase.gltf" id="1_p6gyp"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4j2xa"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_5pcsq"]
+sky_material = SubResource("ProceduralSkyMaterial_4j2xa")
+
+[sub_resource type="Environment" id="Environment_4n8uv"]
+background_mode = 2
+sky = SubResource("Sky_5pcsq")
+tonemap_mode = 2
+glow_enabled = true
+
+[node name="BipedTestScene" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_4n8uv")
+
+[node name="CharacterBase" parent="." instance=ExtResource("1_p6gyp")]

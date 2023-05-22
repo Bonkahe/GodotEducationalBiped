@@ -1,0 +1,20 @@
+# Godot 4+ specific ignores
+.godot/
+.vs/
+.scratch/
+
+# Godot-specific ignores
+.import/
+export.cfg
+export_presets.cfg
+
+# Imported translations (automatically generated from CSV files)
+*.translation
+
+# Mono-specific ignores
+.mono/
+data_*/
+mono_crash.*.json
+
+# Don't know what this is
+*.blend1
