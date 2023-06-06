@@ -22,5 +22,5 @@ project/assembly_name="GodotBipedTutorial"
 
 [rendering]
 
-anti_aliasing/quality/screen_space_aa=1
-anti_aliasing/quality/use_taa=true
+anti_aliasing/screen_space_roughness_limiter/enabled=false
+anti_aliasing/quality/msaa_3d=3
