@@ -3,7 +3,7 @@ using System;
 
 public partial class CharacterController : CharacterBody3D
 {
-	[Export] public string LocomotionStatePlaybackPath { get; set; }
+    [Export] public string LocomotionStatePlaybackPath { get; set; }
 	[Export] public string LocomotionBlendPath { get; set; }
 	[Export] public string JumpStateName { get; set; }
     [Export] public string FallingStateName { get; set; }
@@ -38,10 +38,10 @@ public partial class CharacterController : CharacterBody3D
 
 	public override void _Input(InputEvent @event)
 	{
-		if (IsOnFloor() && Input.IsActionPressed("ui_accept"))
+		if (IsOnFloor() && Input.IsActionJustPressed("ui_accept"))
 		{
-			BeginJump();
-		}
+            BeginJump();
+        }
 	}
 
 	public override void _PhysicsProcess(double delta)
