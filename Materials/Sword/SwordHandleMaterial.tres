@@ -5,3 +5,6 @@ albedo_color = Color(0.580392, 0.392157, 0.290196, 1)
 roughness = 0.68
 rim_enabled = true
 rim = 0.37
+subsurf_scatter_transmittance_enabled = true
+backlight_enabled = true
+backlight = Color(0.486275, 0.443137, 0.352941, 1)
