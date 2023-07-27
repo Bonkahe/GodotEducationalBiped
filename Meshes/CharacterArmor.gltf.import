@@ -27,7 +27,7 @@ animation/import=true
 animation/fps=30
 animation/trimming=false
 animation/remove_immutable_tracks=true
-import_script/path=""
+import_script/path="res://Code/GearExtractor.cs"
 _subresources={
 "nodes": {
 "PATH:Character_GameRig/Skeleton3D": {

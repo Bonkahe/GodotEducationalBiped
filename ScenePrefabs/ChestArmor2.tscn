@@ -1,0 +1,9 @@
+[gd_scene load_steps=4 format=3 uid="uid://bqm2iu7gtp5eg"]
+
+[ext_resource type="PackedScene" uid="uid://c631tk678yoj2" path="res://Meshes/ChestArmor.tscn" id="1_fcsop"]
+[ext_resource type="Material" uid="uid://cir5i00e4psva" path="res://Materials/Sword/SwordMetalMaterial.tres" id="2_5much"]
+[ext_resource type="Material" uid="uid://bhxo77twl4qh2" path="res://Materials/Sword/SwordHandleMaterial.tres" id="3_h66jy"]
+
+[node name="ChestArmor" instance=ExtResource("1_fcsop")]
+surface_material_override/0 = ExtResource("2_5much")
+surface_material_override/1 = ExtResource("3_h66jy")
