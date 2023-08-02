@@ -1,5 +1,8 @@
 extends Node
 
+signal OnCombatBegin
+signal OnCombatEnd
+
 @export var HandContainer: Node3D;
 @export var HipContainer: Node3D;
 @export var ItemContainer: Node3D;
@@ -17,12 +20,14 @@ func _input(event):
 		var playback = animationTree.get(upperBodyStatePlaybackPath) as AnimationNodeStateMachinePlayback;
 		if !isInCombat:
 			isInCombat = true
+			OnCombatBegin.emit()
 			if usingTwoHands:
 				playback.travel(twoHandStanceName + "Idle")
 			else:
 				playback.travel(oneHandStanceName + "Idle")
 		else:
 			isInCombat = false
+			OnCombatEnd.emit()
 			playback.travel("Idle")
 	if isInCombat:
 		if Input.is_action_just_pressed("SwapHands"):

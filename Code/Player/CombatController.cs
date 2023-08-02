@@ -3,7 +3,9 @@ using System;
 
 public partial class CombatController : Node
 {
-	[Export] public Node3D HandContainer { get; set; }
+    [Signal] public delegate void OnCombatBeginEventHandler();
+    [Signal] public delegate void OnCombatEndEventHandler();
+    [Export] public Node3D HandContainer { get; set; }
     [Export] public Node3D HipContainer { get; set; }
     [Export] public Node3D ItemContainer { get; set; }
     [Export] public string UpperBodyStatePlaybackPath { get; set; }
@@ -24,7 +26,7 @@ public partial class CombatController : Node
             if (!isInCombat)
             {
                 isInCombat = true;
-
+                EmitSignal(SignalName.OnCombatBegin);
                 if (usingTwoHands)
                 {
                     playback.Travel(TwoHandStanceName + "Idle");
@@ -37,7 +39,7 @@ public partial class CombatController : Node
             else
             {
                 isInCombat = false;
-
+                EmitSignal(SignalName.OnCombatEnd);
                 playback.Travel("Idle");
             }
         }
