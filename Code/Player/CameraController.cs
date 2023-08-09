@@ -17,12 +17,26 @@ public partial class CameraController : Node
     [Export] public float CameraChangeSpeed { get; set; }
     [Export] public float MaxAllowedDistance { get; set; }
 
-	private Vector3 targetRotation = Vector3.Zero;
+	[Export] public Camera3D CameraNode { get; set; }
+	[Export] public RayCast3D CameraCollisionRay { get; set; }
+	[Export] public float CameraZoomDesiredSpeed { get; set; }
+    [Export] public float CameraZoomBlendSpeed { get; set; }
+    [Export] public float CameraFastZoomBlendSpeed { get; set; }
+
+    [Export] public float MinimumZoomDistance { get; set; }
+    [Export] public float MaximumZoomDistance { get; set; }
+    [Export] public float RaycastImpactOffset { get; set; }
+
+
+    private Vector3 targetRotation = Vector3.Zero;
 	private Vector3 currentVelocity = Vector3.Zero;
+
+	private float currentZoomDistance;
 
     public override void _Ready()
 	{
         Input.MouseMode = Input.MouseModeEnum.Captured;
+		currentZoomDistance = MinimumZoomDistance;
     }
 
 	public override void _Input(InputEvent inputEvent)
@@ -46,6 +60,18 @@ public partial class CameraController : Node
 			else
 			{
                 Input.MouseMode = Input.MouseModeEnum.Captured;
+            }
+		}
+
+		if (inputEvent is InputEventMouseButton mouseEvent)
+		{
+			if (mouseEvent.ButtonIndex == MouseButton.WheelUp)
+			{
+				currentZoomDistance = Mathf.Clamp(currentZoomDistance - CameraZoomDesiredSpeed, MinimumZoomDistance, MaximumZoomDistance);
+			}
+			else if (mouseEvent.ButtonIndex == MouseButton.WheelDown)
+			{
+                currentZoomDistance = Mathf.Clamp(currentZoomDistance + CameraZoomDesiredSpeed, MinimumZoomDistance, MaximumZoomDistance);
             }
 		}
 	}
@@ -78,5 +104,25 @@ public partial class CameraController : Node
 			Mathf.LerpAngle(CameraPivotNode.Rotation.X, Mathf.DegToRad(targetRotation.X), CameraPanBlendSpeed * (float)delta),
 			Mathf.LerpAngle(CameraPivotNode.Rotation.Y, Mathf.DegToRad(targetRotation.Y), CameraPanBlendSpeed * (float)delta),
 			0);
+
+		CameraCollisionRay.TargetPosition = new Vector3(0, 0, currentZoomDistance);
+
+		if (CameraCollisionRay.IsColliding())
+		{
+			Vector3 targetPosition = CameraCollisionRay.GetCollisionPoint() + (CameraCollisionRay.GetCollisionNormal() * RaycastImpactOffset);
+
+			if (targetPosition.DistanceTo(CameraCollisionRay.GlobalPosition) < CameraNode.GlobalPosition.DistanceTo(CameraCollisionRay.GlobalPosition) - RaycastImpactOffset)
+			{
+				CameraNode.GlobalPosition = CameraNode.GlobalPosition.Lerp(targetPosition, CameraFastZoomBlendSpeed * (float)delta);
+			}
+			else
+			{
+                CameraNode.GlobalPosition = CameraNode.GlobalPosition.Lerp(targetPosition, CameraZoomBlendSpeed * (float)delta);
+            }
+		}
+		else
+		{
+            CameraNode.GlobalPosition = CameraNode.GlobalPosition.Lerp(CameraCollisionRay.ToGlobal(CameraCollisionRay.TargetPosition), CameraZoomBlendSpeed * (float)delta);
+        }
     }
 }
