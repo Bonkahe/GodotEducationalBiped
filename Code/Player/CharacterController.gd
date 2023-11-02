@@ -25,9 +25,10 @@ var jumpQueued: bool;
 var falling: bool;
 
 func _process(delta):
+	
 	var newDelta = currentInput - currentVelocity;
 	if (newDelta.length() > transitionSpeed * delta):
-		newDelta = newDelta.normalized() * transitionSpeed * delta;
+		newDelta = newDelta * transitionSpeed * delta;
 	
 	currentVelocity += newDelta;
 	
@@ -67,8 +68,8 @@ func _physics_process(delta):
 	if direction:
 		velocity.x = direction.x * speed
 		velocity.z = direction.z * speed
-		var currentNormalizedVelocity = to_local(global_position + velocity).normalized()
-		currentInput = Vector2(currentNormalizedVelocity.x, currentNormalizedVelocity.z)
+		var currentNormalizedVelocity = to_local(global_position + velocity)
+		currentInput = Vector2(currentNormalizedVelocity.x, currentNormalizedVelocity.z).limit_length(1)
 	else:
 		velocity.x = move_toward(velocity.x, 0, speed)
 		velocity.z = move_toward(velocity.z, 0, speed)

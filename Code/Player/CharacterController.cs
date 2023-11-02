@@ -90,8 +90,8 @@ public partial class CharacterController : CharacterBody3D
 		{
 			velocity.X = direction.X * Speed;
 			velocity.Z = direction.Z * Speed;
-			Vector3 currentNormalizedVelocity = ToLocal(GlobalPosition + velocity).Normalized();
-			currentInput = new Vector2(currentNormalizedVelocity.X, currentNormalizedVelocity.Z);
+			Vector3 currentNormalizedVelocity = ToLocal(GlobalPosition + velocity);
+			currentInput = new Vector2(currentNormalizedVelocity.X, currentNormalizedVelocity.Z).LimitLength(1);
 		}
 		else
 		{
